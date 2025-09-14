@@ -12,7 +12,6 @@ import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import FAQ from '@/components/FAQ';
 import ExitIntentPopup from '@/components/ExitIntentPopup';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
-import StickyMobileCTA from '@/components/StickyMobileCTA';
 
 const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/LxkH8gMkUlDBvJSYpl5FBm?mode=ems_copy_t';
 
@@ -609,7 +608,6 @@ export default function Home() {
       {/* Interactive Elements */}
       <ExitIntentPopup />
       <FloatingWhatsApp />
-      <StickyMobileCTA />
     </div>
   );
 }

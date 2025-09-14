@@ -647,7 +647,7 @@ export default function FormPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                           >
-                            Submit & Continue to WhatsApp 🕋
+                            Submit Form & Schedule Call 🕋
                           </motion.span>
                         )}
                       </AnimatePresence>

@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Bree_Serif } from 'next/font/google';
 import Script from 'next/script';
+import MobileNavigation from '@/components/MobileNavigation';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const breeSerif = Bree_Serif({ 
@@ -58,6 +59,7 @@ export default function RootLayout({
         )}
       </head>
       <body className={`${inter.variable} ${breeSerif.variable}`}>
+        <MobileNavigation />
         {children}
       </body>
     </html>
