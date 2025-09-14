@@ -10,7 +10,7 @@ export default function MobileNavigation() {
 
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/form', label: 'Apply Now', icon: FileText },
+    { href: '/form', label: 'VIP Experience', icon: FileText },
     { href: '/resources', label: 'Resources', icon: BookOpen },
   ];
 
@@ -19,7 +19,7 @@ export default function MobileNavigation() {
       {/* Mobile Menu Button - Fixed Top Right */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 right-4 z-50 w-12 h-12 bg-primary hover:bg-opacity-90 text-accent rounded-full shadow-lg flex items-center justify-center transition-all duration-200 border-2 border-accent"
+        className="md:hidden fixed top-4 right-4 z-[60] w-12 h-12 bg-primary hover:bg-opacity-90 text-accent rounded-full shadow-lg flex items-center justify-center transition-all duration-200 border-2 border-accent"
         aria-label="Toggle menu"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -32,7 +32,7 @@ export default function MobileNavigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-[55]"
             onClick={() => setIsOpen(false)}
           />
         )}
@@ -46,7 +46,7 @@ export default function MobileNavigation() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="md:hidden fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-primary z-40 shadow-2xl border-l border-accent border-opacity-30"
+            className="md:hidden fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-primary z-[55] shadow-2xl border-l border-accent border-opacity-30"
           >
             <div className="flex flex-col h-full pt-20 px-6">
               {/* Navigation Links */}
