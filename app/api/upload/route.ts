@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,10 +13,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Create file path based on file type
+    // Validate file type
     const isImage = file.type.startsWith('image/');
     const isPDF = file.type === 'application/pdf';
     
@@ -28,33 +24,63 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const folder = isPDF ? 'guides' : 'images';
+    // Prepare file for upload
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    
+    // Create unique filename
     const timestamp = Date.now();
     const extension = file.name.split('.').pop();
     const filename = `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
     
-    // Ensure the public directory structure exists
-    const publicDir = join(process.cwd(), 'public');
-    const uploadDir = join(publicDir, folder);
+    // Determine bucket and path
+    const bucket = isPDF ? 'pdf-guides' : 'images';
+    const path = filename;
     
+    // Create buckets if they don't exist
     try {
-      await writeFile(join(uploadDir, filename), buffer);
-    } catch (error) {
-      // If directory doesn't exist, create it
-      const fs = require('fs');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-        await writeFile(join(uploadDir, filename), buffer);
-      } else {
-        throw error;
+      const { data: buckets } = await supabaseAdmin.storage.listBuckets();
+      const bucketExists = buckets?.some(b => b.name === bucket);
+      
+      if (!bucketExists) {
+        const { error: createBucketError } = await supabaseAdmin.storage.createBucket(bucket, {
+          public: true,
+          fileSizeLimit: 52428800, // 50MB
+          allowedMimeTypes: isPDF ? ['application/pdf'] : ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif']
+        });
+        
+        if (createBucketError && !createBucketError.message.includes('already exists')) {
+          console.error('Error creating bucket:', createBucketError);
+        }
       }
+    } catch (bucketError) {
+      console.log('Bucket check/creation:', bucketError);
+    }
+    
+    // Upload file to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from(bucket)
+      .upload(path, buffer, {
+        contentType: file.type,
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.error('Supabase upload error:', uploadError);
+      return NextResponse.json({
+        success: false,
+        error: `Upload failed: ${uploadError.message}`
+      }, { status: 500 });
     }
 
-    const fileUrl = `/${folder}/${filename}`;
+    // Get public URL
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from(bucket)
+      .getPublicUrl(path);
     
     return NextResponse.json({
       success: true,
-      fileUrl,
+      fileUrl: publicUrl,
       fileName: filename,
       fileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
       fileType: file.type
@@ -64,7 +90,7 @@ export async function POST(request: NextRequest) {
     console.error('Upload error:', error);
     return NextResponse.json({
       success: false,
-      error: 'Failed to upload file'
+      error: error instanceof Error ? error.message : 'Failed to upload file'
     }, { status: 500 });
   }
 }
