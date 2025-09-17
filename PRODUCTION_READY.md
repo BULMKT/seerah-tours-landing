@@ -20,7 +20,7 @@ The Seerah Tours application is **PRODUCTION READY** for deployment on Netlify! 
 - ✅ CRM system for lead management
 - ✅ Password: `seerah2026admin`
 
-### ✅ **User Experience Optimized**
+### ✅ **User Experience Optimised**
 - ✅ YouTube videos play properly with full controls
 - ✅ PDFs open in browser for viewing + download option
 - ✅ WhatsApp integration working
@@ -96,12 +96,12 @@ Once deployed, the admin can immediately start adding content:
 
 ## 🚀 **Application is 100% Ready for Production!**
 
-The application has been thoroughly tested and optimized for:
+The application has been thoroughly tested and optimised for:
 - ✅ Non-technical users can easily manage content
 - ✅ Professional user experience for website visitors
 - ✅ Mobile-responsive design
 - ✅ Fast loading times
-- ✅ SEO optimized
+- ✅ SEO optimised
 - ✅ Secure file uploads
 - ✅ Database integration
 - ✅ Form handling

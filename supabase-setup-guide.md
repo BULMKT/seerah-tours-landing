@@ -5,7 +5,7 @@
 1. Go to [supabase.com](https://supabase.com)
 2. Click **"Start your project"** and sign up/login
 3. Click **"New project"**
-4. Choose your organization
+4. Choose your organisation
 5. Set project name: `seerah-tours-hajj`
 6. Set database password (save this!)
 7. Choose region closest to UK

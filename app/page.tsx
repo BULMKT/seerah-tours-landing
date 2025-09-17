@@ -110,7 +110,7 @@ export default function Home() {
                 href="/form"
                 className="text-white hover:text-accent transition-colors duration-300 font-semibold"
               >
-                Personalized Experience
+                Personalised Experience
               </Link>
               <Link 
                 href="/resources"

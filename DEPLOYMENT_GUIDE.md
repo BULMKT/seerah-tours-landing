@@ -200,4 +200,4 @@ For issues with:
 - [ ] All environment variables set
 - [ ] SSL certificate active
 - [ ] Mobile responsive tested
-- [ ] Page load speed optimized
+- [ ] Page load speed optimised

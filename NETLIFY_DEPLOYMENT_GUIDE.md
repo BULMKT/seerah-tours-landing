@@ -41,7 +41,7 @@ If your code isn't on GitHub yet:
 2. **Create New Site:**
    - Click "Add new site" → "Import an existing project"
    - Choose "Deploy with GitHub"
-   - Authorize Netlify to access your GitHub
+   - Authorise Netlify to access your GitHub
 
 3. **Select Repository:**
    - Find and select your `seerah-tours-landing` repository

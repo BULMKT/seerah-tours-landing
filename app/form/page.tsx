@@ -68,7 +68,7 @@ const FAQ = [
   },
   {
     question: "What happens after I submit this form?",
-    answer: "You'll be redirected to join our WhatsApp group and optionally can schedule a personalized call with our team."
+    answer: "You'll be redirected to join our WhatsApp group and optionally can schedule a personalised call with our team."
   }
 ];
 
@@ -197,7 +197,7 @@ export default function FormPage() {
                 className="text-center mb-16"
               >
                 <h1 className="text-4xl md:text-5xl font-bree font-bold text-white mb-6">
-                  Get Personalized Hajj Guidance
+                  Get Personalised Hajj Guidance
                 </h1>
                 <p className="text-xl text-white opacity-80 max-w-3xl mx-auto mb-8">
                   Share your plans with us and get expert advice tailored to your needs. 
@@ -787,10 +787,10 @@ export default function FormPage() {
                     {/* Secondary Action - Schedule Call */}
                     <div className="text-center">
                       <h4 className="text-lg font-semibold text-white mb-4">
-                        Want personalized guidance?
+                        Want personalised guidance?
                       </h4>
                       <p className="text-white opacity-80 mb-6 text-sm">
-                        Schedule a free 30-minute call with our Hajj experts to discuss your specific needs and get personalized recommendations.
+                        Schedule a free 30-minute call with our Hajj experts to discuss your specific needs and get personalised recommendations.
                       </p>
                       
                       <div className="flex gap-4 justify-center">

@@ -108,7 +108,7 @@ Visit:
 - Resource upload functionality
 - Email automation
 - Analytics tracking
-- SEO optimization
+- SEO optimisation
 
 ## 📁 Project Structure
 ```
@@ -172,7 +172,7 @@ Visit:
 - pdf_url (text)
 - is_active (boolean)
 
-## 🎨 Customization
+## 🎨 Customisation
 
 ### Colors
 Edit `/app/globals.css`:
@@ -247,7 +247,7 @@ To complete the setup, please provide:
    - Configure email automation
    - Set up analytics
    - Test on mobile devices
-   - Optimize images
+   - Optimise images
 
 3. **Post-Launch**:
    - Monitor form submissions
