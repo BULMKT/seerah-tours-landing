@@ -14,6 +14,7 @@ import {
 import DailyTipForm from '@/components/admin/DailyTipForm';
 import WebinarForm from '@/components/admin/WebinarForm';
 import PDFGuideForm from '@/components/admin/PDFGuideForm';
+import LeadDetailsModal from '@/components/admin/LeadDetailsModal';
 import type { DailyTip, Webinar, PDFGuide } from '@/lib/supabase';
 
 type ContentType = 'crm-leads' | 'daily-tips' | 'webinars' | 'pdf-guides';
@@ -27,7 +28,14 @@ interface Lead {
   previous_experience?: string;
   hajj_status?: string;
   travelling_with?: string;
+  traveller_count?: number;
+  departure_city?: string;
+  rooming_preference?: string;
+  mobility_considerations?: string;
   call_goals?: string;
+  hear_about_us?: string;
+  hear_about_us_other?: string;
+  consent?: boolean;
   status: 'new' | 'contacted' | 'qualified' | 'converted' | 'closed';
   notes?: string;
   created_at: string;
@@ -49,7 +57,9 @@ export default function AdminPanel() {
   const [dailyTipForm, setDailyTipForm] = useState({ isOpen: false, item: null });
   const [webinarForm, setWebinarForm] = useState({ isOpen: false, item: null });
   const [pdfGuideForm, setPdfGuideForm] = useState({ isOpen: false, item: null });
-  
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [leadDetailsOpen, setLeadDetailsOpen] = useState(false);
+
   // Data states
   const [leads, setLeads] = useState<Lead[]>([]);
   const [dailyTips, setDailyTips] = useState<DailyTip[]>([]);
@@ -527,6 +537,16 @@ export default function AdminPanel() {
                           </td>
                           <td className="p-4">
                             <div className="flex gap-2">
+                              <button
+                                onClick={() => {
+                                  setSelectedLead(lead);
+                                  setLeadDetailsOpen(true);
+                                }}
+                                className="p-2 bg-accent hover:bg-opacity-80 text-primary rounded-lg transition-colors"
+                                title="View Full Details"
+                              >
+                                <Eye className="w-4 h-4" />
+                              </button>
                               <a
                                 href={`mailto:${lead.email}`}
                                 className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
@@ -678,19 +698,29 @@ export default function AdminPanel() {
           onClose={() => setDailyTipForm({ isOpen: false, item: null })}
           onSave={handleSave}
         />
-        
+
         <WebinarForm
           webinar={webinarForm.item}
           isOpen={webinarForm.isOpen}
           onClose={() => setWebinarForm({ isOpen: false, item: null })}
           onSave={handleSave}
         />
-        
+
         <PDFGuideForm
           guide={pdfGuideForm.item}
           isOpen={pdfGuideForm.isOpen}
           onClose={() => setPdfGuideForm({ isOpen: false, item: null })}
           onSave={handleSave}
+        />
+
+        <LeadDetailsModal
+          lead={selectedLead}
+          isOpen={leadDetailsOpen}
+          onClose={() => {
+            setLeadDetailsOpen(false);
+            setSelectedLead(null);
+          }}
+          onUpdateStatus={updateLeadStatus}
         />
       </div>
     </div>

@@ -78,7 +78,6 @@ export default function FormPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<FormData | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-  const [showCalendlyOption, setShowCalendlyOption] = useState(false);
   const [showCalendly, setShowCalendly] = useState(false);
 
   const {
@@ -113,12 +112,6 @@ export default function FormPage() {
         setSubmittedData(data);
         setShowSuccess(true);
         reset();
-        
-        // Show WhatsApp redirect with optional Calendly after 2 seconds
-        setTimeout(() => {
-          setShowCalendlyOption(true);
-        }, 2000);
-        
       } else {
         throw new Error(result.message || 'Failed to submit form');
       }
@@ -144,10 +137,6 @@ export default function FormPage() {
 
   const handleScheduleCall = () => {
     setShowCalendly(true);
-  };
-
-  const handleSkipCall = () => {
-    handleWhatsAppRedirect();
   };
 
   // Form field validation states
@@ -708,116 +697,57 @@ export default function FormPage() {
                 >
                   <CheckCircle className="w-10 h-10 text-white" />
                 </motion.div>
-                
+
                 <h2 className="text-3xl font-bree font-bold text-white mb-4">
                   Alhamdulillah! Form Submitted Successfully
                 </h2>
-                <p className="text-white opacity-80 mb-6 text-lg">
-                  JazakAllah Khair {submittedData?.fullName}! Your information has been saved and our team will review it.
+                <p className="text-white opacity-80 mb-8 text-lg">
+                  JazakAllah Khair {submittedData?.fullName}! Your information has been saved.
                 </p>
-                
-                {/* Progress Indicator */}
-                <div className="max-w-md mx-auto mb-8">
-                  <div className="flex items-center justify-between text-sm text-white opacity-60 mb-2">
-                    <span>Progress</span>
-                    <span>Step 2 of 2</span>
-                  </div>
-                  <div className="w-full bg-white bg-opacity-20 rounded-full h-2">
-                    <motion.div 
-                      className="bg-accent h-2 rounded-full"
-                      initial={{ width: '50%' }}
-                      animate={{ width: '100%' }}
-                      transition={{ duration: 1, delay: 0.5 }}
-                    ></motion.div>
-                  </div>
-                  <p className="text-xs text-white opacity-50 mt-2">
-                    Almost there! Join our community now
+
+                {/* Next Step - Book Your Call */}
+                <div className="bg-accent bg-opacity-20 border-2 border-accent rounded-xl p-6 mb-6">
+                  <h3 className="text-2xl font-bold text-white mb-3 flex items-center justify-center gap-2">
+                    <Calendar className="w-6 h-6 text-accent" />
+                    Next Step: Book Your Free Consultation
+                  </h3>
+                  <p className="text-white opacity-90 mb-6 text-center">
+                    Get personalised Hajj guidance tailored to your needs. Our experts will discuss your plans,
+                    answer your questions, and help you prepare for this blessed journey.
                   </p>
+                  <motion.button
+                    onClick={handleScheduleCall}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-accent hover:bg-opacity-90 text-primary font-bold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
+                  >
+                    <Calendar className="w-5 h-5" />
+                    Book Your Free 30-Minute Call Now
+                  </motion.button>
+                </div>
+
+                {/* Secondary Action - WhatsApp */}
+                <div className="text-center">
+                  <p className="text-white opacity-70 text-sm mb-4">
+                    Also join our WhatsApp community for daily tips and updates
+                  </p>
+                  <motion.button
+                    onClick={handleWhatsAppRedirect}
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-green-500 bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 border border-green-500 border-opacity-30"
+                  >
+                    🕋 Join WhatsApp Community (330+ Members)
+                  </motion.button>
                 </div>
               </motion.div>
 
-              {/* Next Steps */}
+              {/* Calendly Widget - Shows when user clicks book call */}
               <AnimatePresence>
-                {!showCalendlyOption ? (
-                  <motion.div
-                    className="bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20 rounded-xl p-8 shadow-lg"
-                  >
-                    <h3 className="text-xl font-bree font-bold text-white mb-4">
-                      Redirecting you to our WhatsApp community...
-                    </h3>
-                    <div className="flex justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
-                    </div>
-                  </motion.div>
-                ) : !showCalendly ? (
+                {showCalendly && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20 rounded-xl p-8 shadow-lg"
-                  >
-                    <h3 className="text-2xl font-bree font-bold text-white mb-6">
-                      🎉 You're All Set! What's Next?
-                    </h3>
-                    
-                    {/* Primary Action - WhatsApp */}
-                    <div className="mb-8">
-                      <motion.button
-                        onClick={handleWhatsAppRedirect}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-lg mb-4"
-                      >
-                        🕋 Join Our WhatsApp Community Now
-                      </motion.button>
-                      <p className="text-white opacity-70 text-sm">
-                        Join 330+ UK Muslim families preparing for Hajj together
-                      </p>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="relative mb-8">
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-white opacity-20"></div>
-                      </div>
-                      <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-primary text-white opacity-60">Optional</span>
-                      </div>
-                    </div>
-
-                    {/* Secondary Action - Schedule Call */}
-                    <div className="text-center">
-                      <h4 className="text-lg font-semibold text-white mb-4">
-                        Want personalised guidance?
-                      </h4>
-                      <p className="text-white opacity-80 mb-6 text-sm">
-                        Schedule a free 30-minute call with our Hajj experts to discuss your specific needs and get personalised recommendations.
-                      </p>
-                      
-                      <div className="flex gap-4 justify-center">
-                        <motion.button
-                          onClick={handleScheduleCall}
-                          whileHover={{ scale: 1.05 }}
-                          className="bg-accent hover:bg-opacity-80 text-primary font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center gap-2"
-                        >
-                          <Calendar className="w-4 h-4" />
-                          Schedule Free Call
-                        </motion.button>
-                        
-                        <motion.button
-                          onClick={handleSkipCall}
-                          whileHover={{ scale: 1.05 }}
-                          className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
-                        >
-                          Skip for Now
-                        </motion.button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* Calendly Widget */
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -30 }}
                     className="bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20 rounded-xl p-8 shadow-lg"
                   >
                     <div className="flex items-center justify-between mb-6">
@@ -831,7 +761,7 @@ export default function FormPage() {
                         <X className="w-6 h-6" />
                       </button>
                     </div>
-                    
+
                     <div className="bg-white rounded-lg overflow-hidden mb-6">
                       <CalendlyWidget
                         url="https://calendly.com/seerahtours2025/30min"
@@ -841,7 +771,7 @@ export default function FormPage() {
                         height="600px"
                       />
                     </div>
-                    
+
                     {/* WhatsApp reminder */}
                     <div className="text-center p-4 bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 rounded-lg">
                       <p className="text-white text-sm mb-3">
